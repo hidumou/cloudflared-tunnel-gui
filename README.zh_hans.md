@@ -1,6 +1,14 @@
 # Cloudflared Tunnel GUI（中文）
 
+> ⚠️ **提示**：本项目通过 vibe coding（AI 辅助开发）完成，已在 macOS 上测试通过。
+
 这是一个用于管理 Cloudflare Tunnel（`cloudflared`）的桌面端 GUI（Electron + React + Vite），支持启动/停止隧道进程，并编辑本机的 `~/.cloudflared/config.yml`（主要是 `ingress` 规则）。
+
+## 截图预览
+
+| 仪表盘 | 配置管理 | 设置 |
+|:------:|:--------:|:----:|
+| ![Dashboard](screenshots/dashboard.png) | ![Configuration](screenshots/configuration.png) | ![Settings](screenshots/setting.png) |
 
 ## 主要功能
 

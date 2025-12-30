@@ -56,15 +56,61 @@ function createWindow() {
 
 // ==================== IPC Handlers ====================
 
+// Fix PATH for packaged app on macOS
+const getFixedEnv = () => {
+  const env = { ...process.env };
+  if (process.platform === 'darwin') {
+    // Add common paths where cloudflared might be installed
+    const additionalPaths = [
+      '/usr/local/bin',
+      '/opt/homebrew/bin',
+      '/opt/local/bin',
+      '/usr/bin',
+      '/bin',
+      `${process.env.HOME}/.local/bin`,
+    ];
+    const currentPath = env.PATH || '';
+    const pathSet = new Set(currentPath.split(':'));
+    additionalPaths.forEach((p) => pathSet.add(p));
+    env.PATH = Array.from(pathSet).join(':');
+  }
+  return env;
+};
+
 // Check if cloudflared is installed
 ipcMain.handle('cloudflared:check', async () => {
   return new Promise((resolve) => {
-    exec('which cloudflared || where cloudflared', (error, stdout) => {
-      resolve({
-        installed: !error && stdout.trim().length > 0,
-        path: stdout.trim(),
+    // On macOS, packaged apps don't inherit shell PATH, so we check common locations
+    if (process.platform === 'darwin') {
+      const commonPaths = [
+        '/opt/homebrew/bin/cloudflared',  // Apple Silicon Homebrew
+        '/usr/local/bin/cloudflared',      // Intel Homebrew
+        '/opt/local/bin/cloudflared',      // MacPorts
+      ];
+
+      for (const p of commonPaths) {
+        if (fs.existsSync(p)) {
+          resolve({ installed: true, path: p });
+          return;
+        }
+      }
+
+      // Fallback to which with fixed PATH
+      exec('which cloudflared', { env: getFixedEnv() }, (error, stdout) => {
+        resolve({
+          installed: !error && stdout.trim().length > 0,
+          path: stdout.trim(),
+        });
       });
-    });
+    } else {
+      // Windows/Linux
+      exec('which cloudflared || where cloudflared', (error, stdout) => {
+        resolve({
+          installed: !error && stdout.trim().length > 0,
+          path: stdout.trim(),
+        });
+      });
+    }
   });
 });
 
@@ -79,7 +125,7 @@ ipcMain.handle('tunnel:status', async () => {
 // List tunnels
 ipcMain.handle('tunnel:list', async () => {
   return new Promise((resolve) => {
-    exec('cloudflared tunnel list --output json', (error, stdout, stderr) => {
+    exec('cloudflared tunnel list --output json', { env: getFixedEnv() }, (error, stdout, stderr) => {
       if (error) {
         resolve({ success: false, error: stderr || error.message, tunnels: [] });
         return;
@@ -120,6 +166,7 @@ ipcMain.handle('tunnel:start', async (_, tunnelName) => {
 
     const proc = spawn('cloudflared', args, {
       stdio: ['ignore', 'pipe', 'pipe'],
+      env: getFixedEnv(),
     });
 
     tunnelProcess = proc;
@@ -220,7 +267,7 @@ ipcMain.handle('tunnel:stop', async () => {
 // Login to cloudflared
 ipcMain.handle('auth:login', async () => {
   return new Promise((resolve) => {
-    exec('cloudflared tunnel login', (error, stdout, stderr) => {
+    exec('cloudflared tunnel login', { env: getFixedEnv() }, (error, stdout, stderr) => {
       if (error) {
         resolve({ success: false, error: stderr || error.message });
         return;
@@ -457,6 +504,7 @@ ipcMain.handle('tunnel:restart', async (_, { maxRetries = 3, retryDelay = 2000 }
 
       const proc = spawn('cloudflared', args, {
         stdio: ['ignore', 'pipe', 'pipe'],
+        env: getFixedEnv(),
       });
 
       tunnelProcess = proc;

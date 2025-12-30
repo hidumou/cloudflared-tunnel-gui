@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "src/main/main.js",
-  "author": "Your Name",
+  "author": "hidumou",
   "description": "A GUI application for managing Cloudflare Tunnels",
   "scripts": {
     "dev": "vite",
@@ -27,13 +27,13 @@
     ],
     "mac": {
       "category": "public.app-category.developer-tools",
-      "icon": "public/icon.icns"
+      "icon": "assets/icon.icns"
     },
     "win": {
-      "icon": "public/icon.ico"
+      "icon": "assets/icon.ico"
     },
     "linux": {
-      "icon": "public/icon.png",
+      "icon": "assets/icon.png",
       "category": "Development"
     }
   },

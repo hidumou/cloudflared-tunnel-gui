@@ -2,7 +2,15 @@
 
 [简体中文 README](README.zh_hans.md)
 
+> ⚠️ **Note**: This project was created through vibe coding (AI-assisted development). Tested and verified on macOS.
+
 A lightweight desktop GUI (Electron + React + Vite) for managing Cloudflare Tunnel (`cloudflared`) runtime and editing your local `~/.cloudflared/config.yml` ingress rules.
+
+## Screenshots
+
+| Dashboard | Configuration | Settings |
+|:---------:|:-------------:|:--------:|
+| ![Dashboard](screenshots/dashboard.png) | ![Configuration](screenshots/configuration.png) | ![Settings](screenshots/setting.png) |
 
 ## Features
 
