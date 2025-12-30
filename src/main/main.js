@@ -295,6 +295,28 @@ ipcMain.handle('config:save', async (_, { config, raw }) => {
     if (fs.existsSync(configPath)) {
       const backupPath = `${configPath}.backup.${Date.now()}`;
       fs.copyFileSync(configPath, backupPath);
+
+      // Keep only the latest 10 backups
+      const files = fs.readdirSync(configDir);
+      const backupFiles = files
+        .filter(f => f.startsWith('config.yml.backup.'))
+        .map(f => ({
+          name: f,
+          path: path.join(configDir, f),
+          time: parseInt(f.replace('config.yml.backup.', '')) || 0
+        }))
+        .sort((a, b) => b.time - a.time); // Sort by time descending
+
+      // Remove old backups (keep only 10)
+      if (backupFiles.length > 10) {
+        backupFiles.slice(10).forEach(f => {
+          try {
+            fs.unlinkSync(f.path);
+          } catch (e) {
+            console.error('Failed to delete old backup:', e);
+          }
+        });
+      }
     }
 
     // Write new config
