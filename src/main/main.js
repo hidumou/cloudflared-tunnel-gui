@@ -9,6 +9,12 @@ const isDev = process.env.NODE_ENV === 'development';
 let mainWindow = null;
 let tunnelProcess = null;
 
+const getAppIconPath = () => {
+  // In dev, __dirname is src/main; in packaged, it's inside app.asar. We keep
+  // this aimed at the repo assets for dev usage.
+  return path.join(__dirname, '../../assets/icon.png');
+};
+
 // Get cloudflared config path
 const getConfigPath = () => {
   const homeDir = process.env.HOME || process.env.USERPROFILE;
@@ -21,6 +27,8 @@ const getCloudflaredDir = () => {
 };
 
 function createWindow() {
+  const appIconPath = getAppIconPath();
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -31,9 +39,20 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
+    // Windows/Linux window/taskbar icon (macOS ignores this for Dock icon)
+    icon: appIconPath,
     titleBarStyle: 'hiddenInset',
     show: false,
   });
+
+  // macOS Dock icon in dev (packaged app uses .icns via electron-builder)
+  if (process.platform === 'darwin') {
+    try {
+      app.dock.setIcon(appIconPath);
+    } catch {
+      // no-op
+    }
+  }
 
   const startUrl = isDev
     ? 'http://localhost:3000'
