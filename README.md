@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cloudflared Tunnel GUI
 
-## Getting Started
+[简体中文 README](README.zh_hans.md)
 
-First, run the development server:
+A lightweight desktop GUI (Electron + React + Vite) for managing Cloudflare Tunnel (`cloudflared`) runtime and editing your local `~/.cloudflared/config.yml` ingress rules.
+
+## Features
+
+- Start/stop `cloudflared tunnel run` and view logs
+- Read/edit your `~/.cloudflared/config.yml` (YAML)
+- Manage ingress rules via a simple form UI (writes to `ingress`)
+- Cloudflare authentication: trigger `cloudflared tunnel login` and show auth status
+- Language switch (English/中文) and theme switch
+
+## Prerequisites
+
+- Node.js (recommended: modern LTS)
+- pnpm
+- `cloudflared` installed and available in your `PATH`
+  - macOS (Homebrew): `brew install cloudflare/cloudflare/cloudflared`
+  - Or download from Cloudflare and ensure `cloudflared` is executable
+
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm electron:dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This starts Vite and then launches Electron after the dev server is ready.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+pnpm electron:build
+```
 
-## Learn More
+Artifacts are produced under `release/` (configured by `electron-builder`).
 
-To learn more about Next.js, take a look at the following resources:
+## How configuration is handled
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Config file path: `~/.cloudflared/config.yml`
+- The app reads the config on startup.
+- When you add/edit/delete rules in the UI, the app updates `ingress` and saves the file.
+- The app creates `~/.cloudflared/` if it does not exist and backs up existing config before saving.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Troubleshooting
 
-## Deploy on Vercel
+- **"cloudflared not found"**
+  - Ensure `cloudflared` is installed and available in `PATH`.
+  - Restart the app after installing.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Tunnel fails to start**
+  - Check the log panel in Dashboard.
+  - Validate your `config.yml` is valid YAML and `ingress` rules are correct.

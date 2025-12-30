@@ -1,0 +1,108 @@
+{
+    "app": {
+        "name": "Cloudflared Tunnel GUI",
+        "cloudflaredRequired": "Cloudflared Required",
+        "cloudflaredNotInstalled": "cloudflared CLI is not installed on your system. Please install it to use this application.",
+        "installCloudflared": "Install cloudflared",
+        "installHint": "After installation, restart the application."
+    },
+    "nav": {
+        "dashboard": "Dashboard",
+        "config": "Configuration",
+        "settings": "Settings"
+    },
+    "dashboard": {
+        "title": "Tunnel Proxy List",
+        "description": "Manage your tunnel ingress rules",
+        "status": "Status",
+        "running": "Running",
+        "stopped": "Stopped",
+        "start": "Start Tunnel",
+        "stop": "Stop Tunnel",
+        "refresh": "Refresh",
+        "addRule": "Add Rule",
+        "noRules": "No ingress rules configured",
+        "noRulesDescription": "Add your first ingress rule to start proxying traffic",
+        "tunnelNotRunning": "Start tunnel to view status"
+    },
+    "table": {
+        "hostname": "External Address",
+        "localHost": "Local IP",
+        "localPort": "Local Port",
+        "dnsStatus": "DNS Status",
+        "actions": "Actions",
+        "edit": "Edit",
+        "delete": "Delete"
+    },
+    "form": {
+        "hostname": "Hostname",
+        "hostnamePlaceholder": "e.g. app.example.com",
+        "service": "Service URL",
+        "servicePlaceholder": "e.g. http://localhost:8080",
+        "localHost": "Local IP",
+        "localHostPlaceholder": "e.g. localhost or 127.0.0.1",
+        "localPort": "Local Port",
+        "localPortPlaceholder": "e.g. 8080",
+        "save": "Save",
+        "cancel": "Cancel",
+        "addTitle": "Add Ingress Rule",
+        "editTitle": "Edit Ingress Rule",
+        "deleteTitle": "Delete Rule",
+        "deleteConfirm": "Are you sure you want to delete this rule?"
+    },
+    "config": {
+        "title": "Configuration",
+        "description": "Edit your cloudflared configuration",
+        "formMode": "Form Editor",
+        "textMode": "Text Editor",
+        "save": "Save Config",
+        "reload": "Reload",
+        "saved": "Configuration saved successfully",
+        "error": "Failed to save configuration",
+        "openFolder": "Open config folder"
+    },
+    "settings": {
+        "title": "Settings",
+        "language": "Language",
+        "theme": "Theme",
+        "themeLight": "Light",
+        "themeDark": "Dark",
+        "themeSystem": "System",
+        "auth": "Authentication",
+        "authDescription": "Manage your Cloudflare authentication",
+        "authStatus": "Auth Status",
+        "authenticated": "Authenticated",
+        "notAuthenticated": "Not Authenticated",
+        "login": "Login to Cloudflare",
+        "logout": "Remove Authorization",
+        "loginSuccess": "Login successful",
+        "loginFailed": "Login failed",
+        "logoutSuccess": "Authorization removed",
+        "logoutFailed": "Failed to remove authorization"
+    },
+    "status": {
+        "active": "Active",
+        "error": "Error",
+        "stopped": "Stopped",
+        "checking": "Checking...",
+        "unknown": "Unknown",
+        "portRunning": "Local service running",
+        "portStopped": "Local service not running"
+    },
+    "dns": {
+        "configured": "Configured",
+        "pending": "Pending",
+        "error": "Error",
+        "checking": "Checking",
+        "tooltip": "DNS CNAME record status for this hostname",
+        "configuringAll": "Configuring DNS for all hostnames...",
+        "configuredAll": "DNS configuration completed"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "Error",
+        "success": "Success",
+        "confirm": "Confirm",
+        "cancel": "Cancel"
+    }
+}

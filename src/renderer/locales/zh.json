@@ -1,0 +1,108 @@
+{
+    "app": {
+        "name": "Cloudflared 隧道管理",
+        "cloudflaredRequired": "需要安装 Cloudflared",
+        "cloudflaredNotInstalled": "您的系统中未安装 cloudflared CLI。请安装后才能使用此应用。",
+        "installCloudflared": "安装 cloudflared",
+        "installHint": "安装完成后，请重启应用程序。"
+    },
+    "nav": {
+        "dashboard": "仪表板",
+        "config": "配置管理",
+        "settings": "设置"
+    },
+    "dashboard": {
+        "title": "隧道代理列表",
+        "description": "管理您的隧道入口规则",
+        "status": "状态",
+        "running": "运行中",
+        "stopped": "已停止",
+        "start": "启动隧道",
+        "stop": "停止隧道",
+        "refresh": "刷新",
+        "addRule": "添加规则",
+        "noRules": "暂无入口规则",
+        "noRulesDescription": "添加第一条入口规则以开始代理流量",
+        "tunnelNotRunning": "启动隧道以查看状态"
+    },
+    "table": {
+        "hostname": "外网地址",
+        "localHost": "本地 IP",
+        "localPort": "本地端口",
+        "dnsStatus": "DNS 状态",
+        "actions": "操作",
+        "edit": "编辑",
+        "delete": "删除"
+    },
+    "form": {
+        "hostname": "主机名",
+        "hostnamePlaceholder": "例如 app.example.com",
+        "service": "服务地址",
+        "servicePlaceholder": "例如 http://localhost:8080",
+        "localHost": "本地 IP",
+        "localHostPlaceholder": "例如 localhost 或 127.0.0.1",
+        "localPort": "本地端口",
+        "localPortPlaceholder": "例如 8080",
+        "save": "保存",
+        "cancel": "取消",
+        "addTitle": "添加入口规则",
+        "editTitle": "编辑入口规则",
+        "deleteTitle": "删除规则",
+        "deleteConfirm": "确定要删除这条规则吗？"
+    },
+    "config": {
+        "title": "配置管理",
+        "description": "编辑您的 cloudflared 配置文件",
+        "formMode": "表单编辑",
+        "textMode": "文本编辑",
+        "save": "保存配置",
+        "reload": "重新加载",
+        "saved": "配置保存成功",
+        "error": "配置保存失败",
+        "openFolder": "打开配置目录"
+    },
+    "settings": {
+        "title": "设置",
+        "language": "语言",
+        "theme": "主题",
+        "themeLight": "浅色",
+        "themeDark": "深色",
+        "themeSystem": "跟随系统",
+        "auth": "授权认证",
+        "authDescription": "管理您的 Cloudflare 授权认证",
+        "authStatus": "认证状态",
+        "authenticated": "已认证",
+        "notAuthenticated": "未认证",
+        "login": "登录 Cloudflare",
+        "logout": "移除授权",
+        "loginSuccess": "登录成功",
+        "loginFailed": "登录失败",
+        "logoutSuccess": "授权已移除",
+        "logoutFailed": "移除授权失败"
+    },
+    "status": {
+        "active": "正常",
+        "error": "异常",
+        "stopped": "未运行",
+        "checking": "检测中...",
+        "unknown": "未知",
+        "portRunning": "本地服务运行中",
+        "portStopped": "本地服务未运行"
+    },
+    "dns": {
+        "configured": "已配置",
+        "pending": "待配置",
+        "error": "配置失败",
+        "checking": "检测中",
+        "tooltip": "此域名的 DNS CNAME 记录状态",
+        "configuringAll": "正在为所有域名配置 DNS...",
+        "configuredAll": "DNS 配置完成"
+    },
+    "common": {
+        "loading": "加载中...",
+        "error": "错误",
+        "success": "成功",
+        "confirm": "确认",
+        "cancel": "取消"
+    }
+}
