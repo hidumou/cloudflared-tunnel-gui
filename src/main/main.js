@@ -401,7 +401,7 @@ ipcMain.handle('tunnel:route-dns', async (_, { tunnelId, hostname, overwrite }) 
     }
     args.push(tunnelId, hostname);
 
-    exec(`cloudflared ${args.join(' ')}`, (error, stdout, stderr) => {
+    exec(`cloudflared ${args.join(' ')}`, { env: getFixedEnv() }, (error, stdout, stderr) => {
       // cloudflared outputs to stderr for info messages
       const output = stderr || stdout || '';
 

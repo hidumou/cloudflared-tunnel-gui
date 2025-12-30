@@ -51,7 +51,6 @@ export default function Dashboard() {
         isLoading,
         setLoading,
         addLog,
-        checkAllDnsStatus,
     } = useAppStore();
 
     // Load initial data
