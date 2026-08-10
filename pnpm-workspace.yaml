@@ -3,3 +3,12 @@ packages:
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+blockExoticSubdeps: false
+allowBuilds:
+  esbuild: true
+  "esbuild@0.27.2": true
+  electron: true
+  "electron@39.2.7": true
+  electron-winstaller: true
+  "electron-winstaller@5.4.0": true
+

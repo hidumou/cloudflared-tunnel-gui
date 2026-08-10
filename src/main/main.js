@@ -650,24 +650,54 @@ ipcMain.handle('network:check-port', async (_, { host, port }) => {
   });
 });
 
-// Check if port is being listened on using lsof (faster than socket connect)
+// Check if port is being listened on (cross-platform)
 ipcMain.handle('network:check-port-lsof', async (_, { port }) => {
   return new Promise((resolve) => {
-    // Use lsof to check if any process is listening on the port
+    if (process.platform === 'win32') {
+      // Windows: use netstat -ano (lsof is not available on Windows)
+      exec('netstat -ano -p tcp', { timeout: 2000 }, (error, stdout) => {
+        if (error) {
+          resolve({ listening: false, process: null });
+          return;
+        }
+        const lines = stdout.split(/\r?\n/);
+        for (const line of lines) {
+          const parts = line.trim().split(/\s+/);
+          // Format: Proto  Local Address  Foreign Address  State  PID
+          if (parts.length < 5) continue;
+          const [, localAddr, , state] = parts;
+          const portMatch = localAddr.match(/:(\d+)$/);
+          if (portMatch && portMatch[1] === String(port) && state.toUpperCase() === 'LISTENING') {
+            resolve({
+              listening: true,
+              process: null,
+              pid: parts[parts.length - 1] || null,
+            });
+            return;
+          }
+        }
+        resolve({ listening: false, process: null });
+      });
+      return;
+    }
+    // macOS/Linux: use lsof
     exec(`lsof -i :${port} -sTCP:LISTEN -P -n | grep LISTEN`, { timeout: 2000 }, (error, stdout) => {
       if (error || !stdout.trim()) {
         resolve({ listening: false, process: null });
         return;
       }
-      // Parse process info from lsof output
       const lines = stdout.trim().split('\n');
       if (lines.length > 0) {
         const parts = lines[0].split(/\s+/);
-        resolve({
-          listening: true,
-          process: parts[0] || 'unknown',
-          pid: parts[1] || null
-        });
+        if (parts.length > 0) {
+          resolve({
+            listening: true,
+            process: parts[0] || 'unknown',
+            pid: parts[1] || null
+          });
+        } else {
+          resolve({ listening: false, process: null });
+        }
       } else {
         resolve({ listening: false, process: null });
       }
